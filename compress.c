@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <glib.h>
 
 void encoding();
@@ -18,9 +19,20 @@ void encoding() {
   int *length = malloc(sizeof(int));
   char *byte_array = read_input("input", length);
 
-  int i;
-  for (i = 0; i < *length; i = i + 1) {
-    printf("%c", byte_array[i]);
+  int start_position = 0;
+  int buffer_size = 0;
+
+  if (start_position < *length) {
+    buffer_size = buffer_size + 1;
+    char buffer[buffer_size + 1];
+    strncpy(buffer, &byte_array[start_position], buffer_size);
+    buffer[buffer_size] = '\0';
+
+    if (g_hash_table_contains(dictionary, buffer) == FALSE) {
+      // emit code to output of buffer - 1
+
+      g_hash_table_add(dictionary, buffer);
+    }
   }
 
   free(length);
